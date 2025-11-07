@@ -2,9 +2,11 @@
 
 A web application for evaluating product proposals using Matt LeMay's Impact-First Product Teams framework.
 
+**✨ Now with AI-Powered Insights by Claude!**
+
 ## Overview
 
-This tool helps product teams evaluate their proposals based on 5 key dimensions:
+This tool helps product teams evaluate their proposals based on 5 key dimensions, with optional AI-powered deep analysis and improvement suggestions:
 
 1. **Business Impact & Goal Alignment (35%)** - Would the CEO fund this?
 2. **Quantifiable Impact (25%)** - Can you answer the 4 impact questions?
@@ -32,6 +34,33 @@ Every proposal should answer:
 4. What's the likelihood they'll complete it?
 
 **Expected Impact = Reach × Action Value × Conversion Likelihood**
+
+## ✨ AI-Powered Features
+
+### 1. Deep Strategic Analysis 🎯
+Get CEO-level analysis including:
+- Strategic assessment and hidden risks
+- Tough questions a CEO would ask
+- Alternative approaches
+- Go/No-Go recommendations
+
+### 2. Specific Improvements 💪
+Receive actionable recommendations:
+- Targeted fixes for weak areas
+- Before/after examples
+- Copy-pasteable improvements
+- Priority guidance
+
+### Setup AI Features
+
+1. Get an Anthropic API key from https://console.anthropic.com/
+2. Create `.env.local` file:
+   ```bash
+   ANTHROPIC_API_KEY=your_api_key_here
+   ```
+3. For Vercel deployment: Add `ANTHROPIC_API_KEY` environment variable in dashboard
+
+**See [AI Features Guide](docs/AI_FEATURES.md) for complete documentation.**
 
 ## Getting Started
 

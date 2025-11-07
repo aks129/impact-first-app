@@ -1,12 +1,68 @@
 'use client';
 
-import { EvaluationResult } from '@/types';
+import { useState } from 'react';
+import { EvaluationResult, ProductProposal, AIAnalysis, AIImprovements } from '@/types';
 
 interface EvaluationResultsProps {
   evaluation: EvaluationResult;
+  proposal: ProductProposal;
 }
 
-export default function EvaluationResults({ evaluation }: EvaluationResultsProps) {
+export default function EvaluationResults({ evaluation, proposal }: EvaluationResultsProps) {
+  const [aiAnalysis, setAiAnalysis] = useState<string | null>(null);
+  const [aiImprovements, setAiImprovements] = useState<string | null>(null);
+  const [loadingAnalysis, setLoadingAnalysis] = useState(false);
+  const [loadingImprovements, setLoadingImprovements] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleAIAnalysis = async () => {
+    setLoadingAnalysis(true);
+    setError(null);
+    try {
+      const response = await fetch('/api/ai-evaluate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(proposal),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to get AI analysis');
+      }
+
+      const data: AIAnalysis = await response.json();
+      setAiAnalysis(data.analysis);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoadingAnalysis(false);
+    }
+  };
+
+  const handleAIImprovements = async () => {
+    setLoadingImprovements(true);
+    setError(null);
+    try {
+      const response = await fetch('/api/ai-improve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ proposal, evaluation }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to get AI improvements');
+      }
+
+      const data: AIImprovements = await response.json();
+      setAiImprovements(data.improvements);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoadingImprovements(false);
+    }
+  };
+
   const getRatingColor = (rating: string) => {
     switch (rating) {
       case 'High Impact':
@@ -140,6 +196,73 @@ export default function EvaluationResults({ evaluation }: EvaluationResultsProps
           </ul>
         </div>
       )}
+
+      {/* AI-Powered Enhancements */}
+      <div className="bg-gradient-to-r from-purple-50 to-blue-50 border-2 border-purple-300 rounded-lg p-6">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h3 className="text-xl font-bold text-purple-900 mb-1">🤖 AI-Powered Insights</h3>
+            <p className="text-sm text-purple-700">Get expert analysis from Claude</p>
+          </div>
+          <div className="flex gap-3">
+            <button
+              onClick={handleAIAnalysis}
+              disabled={loadingAnalysis}
+              className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors text-sm font-semibold"
+            >
+              {loadingAnalysis ? 'Analyzing...' : 'Deep Analysis'}
+            </button>
+            <button
+              onClick={handleAIImprovements}
+              disabled={loadingImprovements}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors text-sm font-semibold"
+            >
+              {loadingImprovements ? 'Generating...' : 'Get Improvements'}
+            </button>
+          </div>
+        </div>
+
+        {error && (
+          <div className="bg-red-100 border border-red-300 rounded p-3 mb-4">
+            <p className="text-sm text-red-800">
+              ⚠️ {error}
+              {error.includes('API') && (
+                <span className="block mt-1 text-xs">
+                  Configure ANTHROPIC_API_KEY environment variable to enable AI features.
+                </span>
+              )}
+            </p>
+          </div>
+        )}
+
+        {aiAnalysis && (
+          <div className="bg-white rounded-lg p-6 mb-4 border border-purple-200">
+            <h4 className="font-bold text-purple-900 mb-3 flex items-center">
+              <span className="mr-2">🎯</span> Expert Strategic Analysis
+            </h4>
+            <div className="prose prose-sm max-w-none text-gray-800 whitespace-pre-wrap">
+              {aiAnalysis}
+            </div>
+          </div>
+        )}
+
+        {aiImprovements && (
+          <div className="bg-white rounded-lg p-6 border border-blue-200">
+            <h4 className="font-bold text-blue-900 mb-3 flex items-center">
+              <span className="mr-2">💪</span> Specific Improvement Recommendations
+            </h4>
+            <div className="prose prose-sm max-w-none text-gray-800 whitespace-pre-wrap">
+              {aiImprovements}
+            </div>
+          </div>
+        )}
+
+        {!aiAnalysis && !aiImprovements && !error && (
+          <p className="text-sm text-purple-700">
+            Click the buttons above to get AI-powered insights from Claude, trained on product strategy best practices.
+          </p>
+        )}
+      </div>
 
       {/* Framework Reference */}
       <div className="bg-gray-50 border border-gray-300 rounded-lg p-6">

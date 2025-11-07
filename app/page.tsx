@@ -8,10 +8,12 @@ import EvaluationResults from '@/components/EvaluationResults';
 
 export default function Home() {
   const [evaluation, setEvaluation] = useState<EvaluationResult | null>(null);
+  const [proposal, setProposal] = useState<ProductProposal | null>(null);
   const [showForm, setShowForm] = useState(true);
 
-  const handleEvaluate = (proposal: ProductProposal) => {
-    const result = evaluateProposal(proposal);
+  const handleEvaluate = (submittedProposal: ProductProposal) => {
+    const result = evaluateProposal(submittedProposal);
+    setProposal(submittedProposal);
     setEvaluation(result);
     setShowForm(false);
   };
@@ -42,7 +44,9 @@ export default function Home() {
         <ProposalForm onSubmit={handleEvaluate} />
       ) : (
         <>
-          {evaluation && <EvaluationResults evaluation={evaluation} />}
+          {evaluation && proposal && (
+            <EvaluationResults evaluation={evaluation} proposal={proposal} />
+          )}
           <div className="mt-8 text-center">
             <button
               onClick={handleReset}

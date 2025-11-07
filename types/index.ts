@@ -79,3 +79,27 @@ export interface ImpactCalculation {
   conversionLikelihood: number;
   expectedImpact: number; // reach * actionValue * (likelihood/100)
 }
+
+export interface AIAnalysis {
+  analysis: string;
+  usage?: {
+    input_tokens: number;
+    output_tokens: number;
+  };
+}
+
+export interface AIImprovements {
+  improvements: string;
+  usage?: {
+    input_tokens: number;
+    output_tokens: number;
+  };
+}
+
+export interface AIAssistance {
+  suggestion: string;
+  usage?: {
+    input_tokens: number;
+    output_tokens: number;
+  };
+}
