@@ -5,11 +5,13 @@ import { ProductProposal, EvaluationResult } from '@/types';
 import { evaluateProposal } from '@/lib/scoring/evaluationEngine';
 import ProposalForm from '@/components/ProposalForm';
 import EvaluationResults from '@/components/EvaluationResults';
+import { sampleProposal } from '@/lib/sampleProposal';
 
 export default function Home() {
   const [evaluation, setEvaluation] = useState<EvaluationResult | null>(null);
   const [proposal, setProposal] = useState<ProductProposal | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [initialProposal, setInitialProposal] = useState<ProductProposal | null>(null);
 
   const handleEvaluate = (submittedProposal: ProductProposal) => {
     const result = evaluateProposal(submittedProposal);
@@ -20,10 +22,18 @@ export default function Home() {
 
   const handleReset = () => {
     setEvaluation(null);
+    setProposal(null);
+    setInitialProposal(null);
     setShowForm(false);
   };
 
   const handleStartEvaluation = () => {
+    setInitialProposal(null);
+    setShowForm(true);
+  };
+
+  const handleTryExample = () => {
+    setInitialProposal(sampleProposal);
     setShowForm(true);
   };
 
@@ -39,7 +49,22 @@ export default function Home() {
           </svg>
           Back to Home
         </button>
-        <ProposalForm onSubmit={handleEvaluate} />
+        {initialProposal && (
+          <div className="mb-6 bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-300 rounded-xl p-4">
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="text-sm font-semibold text-green-900">
+                Example Loaded: High-Impact Proposal
+              </p>
+            </div>
+            <p className="text-xs text-green-700 mt-1 ml-7">
+              This is a well-crafted proposal that demonstrates best practices. Feel free to modify and experiment!
+            </p>
+          </div>
+        )}
+        <ProposalForm onSubmit={handleEvaluate} initialData={initialProposal} />
       </main>
     );
   }
@@ -87,6 +112,15 @@ export default function Home() {
                 <svg className="inline-block w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
+              </button>
+              <button
+                onClick={handleTryExample}
+                className="group px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white text-lg font-semibold rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all transform hover:scale-105 shadow-2xl"
+              >
+                <svg className="inline-block w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+                Try Example
               </button>
               <a
                 href="#how-it-works"

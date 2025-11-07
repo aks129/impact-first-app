@@ -6,40 +6,43 @@ import FormProgress from './FormProgress';
 
 interface ProposalFormProps {
   onSubmit: (proposal: ProductProposal) => void;
+  initialData?: ProductProposal | null;
 }
 
-export default function ProposalForm({ onSubmit }: ProposalFormProps) {
+const defaultFormData: ProductProposal = {
+  title: '',
+  description: '',
+  businessAlignment: {
+    ceoFundingTest: '',
+    connectionToGoals: '',
+    marketExpectations: '',
+  },
+  quantifiableImpact: {
+    reach: 0,
+    action: '',
+    actionValue: 0,
+    conversionLikelihood: 0,
+  },
+  processCheck: {
+    outcomeDescription: '',
+    simplificationPlan: '',
+    dependenciesCreated: '',
+  },
+  deathSpiralCheck: {
+    downstreamWork: '',
+    complexityImpact: '',
+    goalClarity: '',
+  },
+  commercialMindset: {
+    costBenefitAnalysis: '',
+    tradeoffs: '',
+    businessModelFit: '',
+  },
+};
+
+export default function ProposalForm({ onSubmit, initialData }: ProposalFormProps) {
   const [currentSection, setCurrentSection] = useState(1);
-  const [formData, setFormData] = useState<ProductProposal>({
-    title: '',
-    description: '',
-    businessAlignment: {
-      ceoFundingTest: '',
-      connectionToGoals: '',
-      marketExpectations: '',
-    },
-    quantifiableImpact: {
-      reach: 0,
-      action: '',
-      actionValue: 0,
-      conversionLikelihood: 0,
-    },
-    processCheck: {
-      outcomeDescription: '',
-      simplificationPlan: '',
-      dependenciesCreated: '',
-    },
-    deathSpiralCheck: {
-      downstreamWork: '',
-      complexityImpact: '',
-      goalClarity: '',
-    },
-    commercialMindset: {
-      costBenefitAnalysis: '',
-      tradeoffs: '',
-      businessModelFit: '',
-    },
-  });
+  const [formData, setFormData] = useState<ProductProposal>(initialData || defaultFormData);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
