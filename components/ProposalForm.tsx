@@ -1,13 +1,15 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { ProductProposal } from '@/types';
+import FormProgress from './FormProgress';
 
 interface ProposalFormProps {
   onSubmit: (proposal: ProductProposal) => void;
 }
 
 export default function ProposalForm({ onSubmit }: ProposalFormProps) {
+  const [currentSection, setCurrentSection] = useState(1);
   const [formData, setFormData] = useState<ProductProposal>({
     title: '',
     description: '',
@@ -58,11 +60,35 @@ export default function ProposalForm({ onSubmit }: ProposalFormProps) {
     }
   };
 
+  // Update section based on scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = document.querySelectorAll('section[data-section]');
+      sections.forEach((section, index) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top >= 0 && rect.top <= window.innerHeight / 2) {
+          setCurrentSection(index + 1);
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-8 bg-white rounded-lg shadow-lg p-8">
-      {/* Basic Info */}
-      <section>
-        <h3 className="text-xl font-bold text-gray-900 mb-4">Basic Information</h3>
+    <form onSubmit={handleSubmit} className="space-y-8 animate-slide-up">
+      <FormProgress currentSection={currentSection} totalSections={6} />
+
+      <div className="bg-white rounded-2xl shadow-2xl p-8 space-y-12">
+        {/* Basic Info */}
+        <section data-section="1" className="scroll-mt-24">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center text-white font-bold">
+              1
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900">Basic Information</h3>
+          </div>
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -357,13 +383,14 @@ export default function ProposalForm({ onSubmit }: ProposalFormProps) {
         </div>
       </section>
 
-      <div className="border-t pt-8">
-        <button
-          type="submit"
-          className="w-full px-6 py-4 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-lg"
-        >
-          Evaluate Impact
-        </button>
+        <div className="border-t pt-8">
+          <button
+            type="submit"
+            className="w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-lg font-semibold rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 shadow-2xl"
+          >
+            Evaluate Impact
+          </button>
+        </div>
       </div>
     </form>
   );
