@@ -63,7 +63,6 @@ export default function ProposalForm({ onSubmit, initialData }: ProposalFormProp
     }
   };
 
-  // Update section based on scroll position
   useEffect(() => {
     const handleScroll = () => {
       const sections = document.querySelectorAll('section[data-section]');
@@ -74,322 +73,216 @@ export default function ProposalForm({ onSubmit, initialData }: ProposalFormProp
         }
       });
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const Section = ({ num, title, description, children }: any) => (
+    <section data-section={num} className="scroll-mt-24">
+      <div className="flex items-start gap-4 mb-8">
+        <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-600 to-blue-700 text-white flex items-center justify-center font-bold flex-shrink-0 shadow-lg">
+          {num}
+        </div>
+        <div>
+          <h3 className="text-2xl font-bold text-slate-900">{title}</h3>
+          <p className="text-slate-600 text-sm mt-1">{description}</p>
+        </div>
+      </div>
+      <div className="space-y-6 ml-4 pl-4 border-l-2 border-slate-200">
+        {children}
+      </div>
+    </section>
+  );
+
+  const InputField = ({ label, required, value, onChange, placeholder, type = 'text' }: any) => (
+    <div>
+      <label className="block text-sm font-semibold text-slate-900 mb-2">
+        {label} {required && <span className="text-red-500">*</span>}
+      </label>
+      <input
+        type={type}
+        required={required}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        className="w-full px-4 py-2.5 border border-slate-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+      />
+    </div>
+  );
+
+  const TextAreaField = ({ label, required, value, onChange, placeholder, rows = 3 }: any) => (
+    <div>
+      <label className="block text-sm font-semibold text-slate-900 mb-2">
+        {label} {required && <span className="text-red-500">*</span>}
+      </label>
+      <textarea
+        required={required}
+        value={value}
+        onChange={onChange}
+        rows={rows}
+        placeholder={placeholder}
+        className="w-full px-4 py-2.5 border border-slate-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+      />
+    </div>
+  );
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-8 animate-slide-up">
+    <form onSubmit={handleSubmit} className="space-y-12 animate-fade-in">
       <FormProgress currentSection={currentSection} totalSections={6} />
 
-      <div className="bg-white rounded-2xl shadow-2xl p-8 space-y-12">
+      <div className="bg-white rounded-xl shadow-lg p-8 space-y-16">
         {/* Basic Info */}
-        <section data-section="1" className="scroll-mt-24">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center text-white font-bold">
-              1
-            </div>
-            <h3 className="text-2xl font-bold text-gray-900">Basic Information</h3>
-          </div>
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Proposal Title *
-            </label>
-            <input
-              type="text"
-              required
-              value={formData.title}
-              onChange={(e) => updateField('title', '', e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="e.g., User Onboarding Optimization"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Description
-            </label>
-            <textarea
-              value={formData.description}
-              onChange={(e) => updateField('description', '', e.target.value)}
-              rows={3}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Brief overview of the proposal"
-            />
-          </div>
-        </div>
-      </section>
+        <Section num="1" title="Basic Information" description="Define your proposal">
+          <InputField
+            label="Proposal Title"
+            required
+            value={formData.title}
+            onChange={(e: any) => updateField('title', '', e.target.value)}
+            placeholder="e.g., Mobile App Redesign"
+          />
+          <TextAreaField
+            label="Description"
+            value={formData.description}
+            onChange={(e: any) => updateField('description', '', e.target.value)}
+            placeholder="Brief overview of your proposal"
+            rows={3}
+          />
+        </Section>
 
-      {/* Business Impact */}
-      <section className="border-t pt-8">
-        <h3 className="text-xl font-bold text-gray-900 mb-2">
-          1. Business Impact & Goal Alignment (35%)
-        </h3>
-        <p className="text-sm text-gray-600 mb-4">
-          The most critical factor - does this deliver clear business value?
-        </p>
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              CEO Funding Test * <span className="text-xs text-gray-500">(If you were the CEO, would you fully fund this team?)</span>
-            </label>
-            <textarea
-              required
-              value={formData.businessAlignment.ceoFundingTest}
-              onChange={(e) => updateField('businessAlignment', 'ceoFundingTest', e.target.value)}
-              rows={3}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Explain why the CEO would fund this work. What business value does it deliver?"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Connection to Critical Business Goals *
-            </label>
-            <textarea
-              required
-              value={formData.businessAlignment.connectionToGoals}
-              onChange={(e) => updateField('businessAlignment', 'connectionToGoals', e.target.value)}
-              rows={2}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="How is this directly connected (1 step away) to critical business metrics?"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Market/Board Expectations
-            </label>
-            <textarea
-              value={formData.businessAlignment.marketExpectations}
-              onChange={(e) => updateField('businessAlignment', 'marketExpectations', e.target.value)}
-              rows={2}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="How does this align with market expectations and board commitments?"
-            />
-          </div>
-        </div>
-      </section>
+        {/* Business Impact */}
+        <Section num="2" title="Business Impact (35%)" description="The most critical dimension">
+          <TextAreaField
+            label="CEO Funding Test"
+            required
+            value={formData.businessAlignment.ceoFundingTest}
+            onChange={(e: any) => updateField('businessAlignment', 'ceoFundingTest', e.target.value)}
+            placeholder="If you were the CEO, would you fully fund this? Explain the business value."
+          />
+          <TextAreaField
+            label="Connection to Critical Business Goals"
+            required
+            value={formData.businessAlignment.connectionToGoals}
+            onChange={(e: any) => updateField('businessAlignment', 'connectionToGoals', e.target.value)}
+            placeholder="How does this connect to key metrics? Be direct."
+          />
+          <TextAreaField
+            label="Market/Board Expectations"
+            value={formData.businessAlignment.marketExpectations}
+            onChange={(e: any) => updateField('businessAlignment', 'marketExpectations', e.target.value)}
+            placeholder="Alignment with market trends and board commitments"
+          />
+        </Section>
 
-      {/* Quantifiable Impact */}
-      <section className="border-t pt-8">
-        <h3 className="text-xl font-bold text-gray-900 mb-2">
-          2. Quantifiable Impact (25%)
-        </h3>
-        <p className="text-sm text-gray-600 mb-4">
-          Answer all 4 questions to calculate expected impact
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Reach (How many people?) *
-            </label>
-            <input
+        {/* Quantifiable Impact */}
+        <Section num="3" title="Quantifiable Impact (25%)" description="Measure the real impact">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <InputField
+              label="Reach (How many people?)"
+              required
               type="number"
-              required
-              min="0"
               value={formData.quantifiableImpact.reach}
-              onChange={(e) => updateField('quantifiableImpact', 'reach', parseInt(e.target.value) || 0)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="e.g., 10000"
+              onChange={(e: any) => updateField('quantifiableImpact', 'reach', parseInt(e.target.value) || 0)}
+              placeholder="10000"
             />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Action Value ($ per action) *
-            </label>
-            <input
-              type="number"
+            <InputField
+              label="Value per Action ($)"
               required
-              min="0"
-              step="0.01"
+              type="number"
               value={formData.quantifiableImpact.actionValue}
-              onChange={(e) => updateField('quantifiableImpact', 'actionValue', parseFloat(e.target.value) || 0)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="e.g., 50"
+              onChange={(e: any) => updateField('quantifiableImpact', 'actionValue', parseFloat(e.target.value) || 0)}
+              placeholder="50"
             />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Conversion Likelihood (%) *
-            </label>
-            <input
-              type="number"
+            <InputField
+              label="Conversion Likelihood (%)"
               required
-              min="0"
-              max="100"
+              type="number"
               value={formData.quantifiableImpact.conversionLikelihood}
-              onChange={(e) => updateField('quantifiableImpact', 'conversionLikelihood', parseFloat(e.target.value) || 0)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="e.g., 15"
+              onChange={(e: any) => updateField('quantifiableImpact', 'conversionLikelihood', parseFloat(e.target.value) || 0)}
+              placeholder="15"
             />
-          </div>
-          <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Desired Action *
-            </label>
-            <input
-              type="text"
+            <InputField
+              label="Desired Action"
               required
               value={formData.quantifiableImpact.action}
-              onChange={(e) => updateField('quantifiableImpact', 'action', e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="e.g., Complete purchase, upgrade to premium"
+              onChange={(e: any) => updateField('quantifiableImpact', 'action', e.target.value)}
+              placeholder="e.g., Complete purchase"
             />
           </div>
-        </div>
-      </section>
+        </Section>
 
-      {/* Process Theatre Check */}
-      <section className="border-t pt-8">
-        <h3 className="text-xl font-bold text-gray-900 mb-2">
-          3. Focus Over Process Theatre (20%)
-        </h3>
-        <p className="text-sm text-gray-600 mb-4">
-          Ensure we're delivering value, not just following process
-        </p>
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Outcome Description (not process) *
-            </label>
-            <textarea
-              required
-              value={formData.processCheck.outcomeDescription}
-              onChange={(e) => updateField('processCheck', 'outcomeDescription', e.target.value)}
-              rows={2}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="What tangible business outcome will this deliver? (Focus on results, not frameworks/processes)"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Simplification Plan
-            </label>
-            <textarea
-              value={formData.processCheck.simplificationPlan}
-              onChange={(e) => updateField('processCheck', 'simplificationPlan', e.target.value)}
-              rows={2}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="How does this simplify vs. complicate the product?"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Dependencies Created
-            </label>
-            <textarea
-              value={formData.processCheck.dependenciesCreated}
-              onChange={(e) => updateField('processCheck', 'dependenciesCreated', e.target.value)}
-              rows={2}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="What new dependencies does this create? (fewer is better)"
-            />
-          </div>
-        </div>
-      </section>
+        {/* Process Check */}
+        <Section num="4" title="Focus Over Process (20%)" description="Outcomes vs. process">
+          <TextAreaField
+            label="Outcome Description (not process)"
+            required
+            value={formData.processCheck.outcomeDescription}
+            onChange={(e: any) => updateField('processCheck', 'outcomeDescription', e.target.value)}
+            placeholder="What tangible business outcome? Focus on results, not frameworks."
+          />
+          <TextAreaField
+            label="Simplification Plan"
+            value={formData.processCheck.simplificationPlan}
+            onChange={(e: any) => updateField('processCheck', 'simplificationPlan', e.target.value)}
+            placeholder="Does this simplify or complicate the product?"
+          />
+          <TextAreaField
+            label="Dependencies Created"
+            value={formData.processCheck.dependenciesCreated}
+            onChange={(e: any) => updateField('processCheck', 'dependenciesCreated', e.target.value)}
+            placeholder="What new dependencies? Fewer is better."
+          />
+        </Section>
 
-      {/* Death Spiral Check */}
-      <section className="border-t pt-8">
-        <h3 className="text-xl font-bold text-gray-900 mb-2">
-          4. Death Spiral Avoidance (15%)
-        </h3>
-        <p className="text-sm text-gray-600 mb-4">
-          Low-impact work begets more low-impact work
-        </p>
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Downstream Low-Impact Work *
-            </label>
-            <textarea
-              required
-              value={formData.deathSpiralCheck.downstreamWork}
-              onChange={(e) => updateField('deathSpiralCheck', 'downstreamWork', e.target.value)}
-              rows={2}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Will this create more low-impact 'work around work' downstream? Be honest."
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Complexity Impact
-            </label>
-            <textarea
-              value={formData.deathSpiralCheck.complexityImpact}
-              onChange={(e) => updateField('deathSpiralCheck', 'complexityImpact', e.target.value)}
-              rows={2}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Does this simplify or complicate the product?"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Goal Clarity
-            </label>
-            <textarea
-              value={formData.deathSpiralCheck.goalClarity}
-              onChange={(e) => updateField('deathSpiralCheck', 'goalClarity', e.target.value)}
-              rows={2}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Can you state the goals without reviewing documentation?"
-            />
-          </div>
-        </div>
-      </section>
+        {/* Death Spiral */}
+        <Section num="5" title="Death Spiral Avoidance (15%)" description="Break the low-impact cycle">
+          <TextAreaField
+            label="Downstream Low-Impact Work"
+            required
+            value={formData.deathSpiralCheck.downstreamWork}
+            onChange={(e: any) => updateField('deathSpiralCheck', 'downstreamWork', e.target.value)}
+            placeholder="Will this create low-impact 'work around work'? Be honest."
+          />
+          <TextAreaField
+            label="Complexity Impact"
+            value={formData.deathSpiralCheck.complexityImpact}
+            onChange={(e: any) => updateField('deathSpiralCheck', 'complexityImpact', e.target.value)}
+            placeholder="Does this simplify or complicate the product?"
+          />
+          <TextAreaField
+            label="Goal Clarity"
+            value={formData.deathSpiralCheck.goalClarity}
+            onChange={(e: any) => updateField('deathSpiralCheck', 'goalClarity', e.target.value)}
+            placeholder="Can you state the goals without reading documentation?"
+          />
+        </Section>
 
-      {/* Commercial Mindset */}
-      <section className="border-t pt-8">
-        <h3 className="text-xl font-bold text-gray-900 mb-2">
-          5. Commercial Mindedness (5%)
-        </h3>
-        <p className="text-sm text-gray-600 mb-4">
-          Grounded in costs, benefits, and tradeoffs
-        </p>
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Cost-Benefit Analysis
-            </label>
-            <textarea
-              value={formData.commercialMindset.costBenefitAnalysis}
-              onChange={(e) => updateField('commercialMindset', 'costBenefitAnalysis', e.target.value)}
-              rows={2}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="What are the costs vs. benefits?"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Tradeoffs
-            </label>
-            <textarea
-              value={formData.commercialMindset.tradeoffs}
-              onChange={(e) => updateField('commercialMindset', 'tradeoffs', e.target.value)}
-              rows={2}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="What tradeoffs are we making? What are we NOT doing?"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Business Model Fit
-            </label>
-            <textarea
-              value={formData.commercialMindset.businessModelFit}
-              onChange={(e) => updateField('commercialMindset', 'businessModelFit', e.target.value)}
-              rows={2}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="How does this fit our business model and help us win?"
-            />
-          </div>
-        </div>
-      </section>
+        {/* Commercial */}
+        <Section num="6" title="Commercial Mindedness (5%)" description="Grounded in reality">
+          <TextAreaField
+            label="Cost-Benefit Analysis"
+            value={formData.commercialMindset.costBenefitAnalysis}
+            onChange={(e: any) => updateField('commercialMindset', 'costBenefitAnalysis', e.target.value)}
+            placeholder="What are the costs vs. benefits?"
+          />
+          <TextAreaField
+            label="Tradeoffs"
+            value={formData.commercialMindset.tradeoffs}
+            onChange={(e: any) => updateField('commercialMindset', 'tradeoffs', e.target.value)}
+            placeholder="What are we NOT doing? What are the tradeoffs?"
+          />
+          <TextAreaField
+            label="Business Model Fit"
+            value={formData.commercialMindset.businessModelFit}
+            onChange={(e: any) => updateField('commercialMindset', 'businessModelFit', e.target.value)}
+            placeholder="How does this fit our business model?"
+          />
+        </Section>
 
+        {/* Submit */}
         <div className="border-t pt-8">
           <button
             type="submit"
-            className="w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-lg font-semibold rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 shadow-2xl"
+            className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white text-lg font-semibold rounded-lg hover:shadow-xl transition-all"
           >
             Evaluate Impact
           </button>
