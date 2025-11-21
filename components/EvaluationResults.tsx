@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { EvaluationResult, ProductProposal, AIAnalysis, AIImprovements } from '@/types';
+import { generatePDFScorecard } from '@/utils/generatePDFScorecard';
 
 interface EvaluationResultsProps {
   evaluation: EvaluationResult;
@@ -117,6 +118,16 @@ export default function EvaluationResults({ evaluation, proposal }: EvaluationRe
               </span>
             </p>
           )}
+
+          <div className="mt-8 flex gap-4 justify-center flex-wrap">
+            <button
+              onClick={() => generatePDFScorecard(evaluation, proposal)}
+              className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-blue-500/20 transition-all flex items-center gap-2"
+            >
+              <span>📄</span>
+              Download PDF Scorecard
+            </button>
+          </div>
         </div>
       </div>
 
