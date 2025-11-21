@@ -3,6 +3,7 @@
 import { useState, FormEvent, useEffect } from 'react';
 import { ProductProposal } from '@/types';
 import FormProgress from './FormProgress';
+import SpeechInput from './SpeechInput';
 
 interface ProposalFormProps {
   onSubmit: (proposal: ProductProposal) => void;
@@ -126,9 +127,39 @@ export default function ProposalForm({ onSubmit, initialData }: ProposalFormProp
     </div>
   );
 
+  const handleSpeechData = (extractedData: Partial<ProductProposal>) => {
+    setFormData((prev) => ({
+      ...prev,
+      ...extractedData,
+      businessAlignment: {
+        ...prev.businessAlignment,
+        ...extractedData.businessAlignment,
+      },
+      quantifiableImpact: {
+        ...prev.quantifiableImpact,
+        ...extractedData.quantifiableImpact,
+      },
+      processCheck: {
+        ...prev.processCheck,
+        ...extractedData.processCheck,
+      },
+      deathSpiralCheck: {
+        ...prev.deathSpiralCheck,
+        ...extractedData.deathSpiralCheck,
+      },
+      commercialMindset: {
+        ...prev.commercialMindset,
+        ...extractedData.commercialMindset,
+      },
+    }));
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-12 animate-fade-in">
       <FormProgress currentSection={currentSection} totalSections={6} />
+
+      {/* Speech Input */}
+      <SpeechInput onDataExtracted={handleSpeechData} />
 
       <div className="bg-white rounded-xl shadow-lg p-8 space-y-16">
         {/* Basic Info */}
