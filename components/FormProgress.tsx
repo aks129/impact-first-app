@@ -15,7 +15,7 @@ export default function FormProgress({ currentSection, totalSections }: FormProg
     { id: 6, name: 'Commercial', icon: '💰' },
   ];
 
-  const progress = ((currentSection - 1) / (totalSections - 1)) * 100;
+  const progress = currentSection === 1 ? 0 : ((currentSection - 1) / (totalSections - 1)) * 100;
 
   return (
     <div className="mb-8 animate-slide-up">
