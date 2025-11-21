@@ -13,18 +13,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900">
-        <nav className="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/80 border-b border-slate-700/50 shadow-2xl">
+      <body className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 font-sans antialiased" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+        <nav className="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/80 border-b border-slate-800/50 shadow-2xl">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg">
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
                 <div>
-                  <h1 className="text-lg font-bold text-white">Impact Calculator</h1>
+                  <h1 className="text-lg font-bold text-white tracking-tight">Impact Calculator</h1>
                   <p className="text-xs text-slate-400">Product Proposal Evaluator</p>
                 </div>
               </div>

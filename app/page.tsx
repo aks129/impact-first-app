@@ -39,11 +39,11 @@ export default function Home() {
 
   if (showForm) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+      <main className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-950">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <button
             onClick={() => setShowForm(false)}
-            className="mb-8 inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 font-medium transition-colors"
+            className="mb-8 inline-flex items-center gap-2 text-slate-400 hover:text-slate-200 font-medium transition-colors"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -51,13 +51,13 @@ export default function Home() {
             Back to Home
           </button>
           {initialProposal && (
-            <div className="mb-8 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-lg p-4 flex gap-3">
-              <svg className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+            <div className="mb-8 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/30 rounded-lg p-4 flex gap-3">
+              <svg className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
               <div>
-                <p className="font-semibold text-emerald-900">Sample Proposal Loaded</p>
-                <p className="text-sm text-emerald-700">Review this well-crafted example to see best practices in action.</p>
+                <p className="font-semibold text-emerald-300">Sample Proposal Loaded</p>
+                <p className="text-sm text-emerald-200">Review this well-crafted example to see best practices in action.</p>
               </div>
             </div>
           )}
@@ -69,13 +69,13 @@ export default function Home() {
 
   if (evaluation && proposal) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+      <main className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-950">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <EvaluationResults evaluation={evaluation} proposal={proposal} />
           <div className="mt-12 flex justify-center">
             <button
               onClick={handleReset}
-              className="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg hover:shadow-lg transition-all"
+              className="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg hover:shadow-xl hover:shadow-blue-500/20 transition-all"
             >
               Evaluate Another Proposal
             </button>
@@ -86,32 +86,32 @@ export default function Home() {
   }
 
   return (
-    <main className="bg-gradient-to-b from-slate-50 via-white to-blue-50">
+    <main className="bg-gradient-to-b from-slate-900 via-slate-850 to-slate-950">
       {/* Hero Section */}
       <section className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto text-center">
           <div className="inline-block mb-6">
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-semibold">
-              <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 text-blue-300 text-sm font-semibold border border-blue-500/30">
+              <span className="w-2 h-2 rounded-full bg-blue-400"></span>
               AI-Powered Product Evaluation
             </span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight">
+          <h1 className="text-5xl md:text-6xl font-bold text-slate-50 mb-6 leading-tight tracking-tight">
             Evaluate Proposals With <span className="gradient-text">Proven Impact</span>
           </h1>
-          <p className="text-xl text-slate-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto leading-relaxed font-medium">
             Make data-driven product decisions using the Impact-First framework. Instant scoring, AI insights, and actionable recommendations.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button
               onClick={handleStartEvaluation}
-              className="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+              className="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105 transition-all"
             >
               Get Started Free
             </button>
             <button
               onClick={handleTryExample}
-              className="px-8 py-3 bg-white border-2 border-slate-200 text-slate-900 font-semibold rounded-lg hover:border-slate-300 hover:shadow-md transition-all"
+              className="px-8 py-3 bg-slate-800 border-2 border-slate-700 text-slate-100 font-semibold rounded-lg hover:border-slate-600 hover:bg-slate-700/50 hover:shadow-md transition-all"
             >
               View Sample Report
             </button>
@@ -120,7 +120,7 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white/50 backdrop-blur">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-slate-800/30 backdrop-blur border-y border-slate-700/50">
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
@@ -131,8 +131,8 @@ export default function Home() {
             ].map((stat, i) => (
               <div key={i} className="text-center">
                 <div className="text-3xl font-bold gradient-text mb-1">{stat.value}</div>
-                <div className="text-sm font-semibold text-slate-900">{stat.label}</div>
-                <div className="text-xs text-slate-500 mt-1">{stat.desc}</div>
+                <div className="text-sm font-semibold text-slate-100">{stat.label}</div>
+                <div className="text-xs text-slate-400 mt-1">{stat.desc}</div>
               </div>
             ))}
           </div>
@@ -143,8 +143,8 @@ export default function Home() {
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-slate-900 mb-4">How It Works</h2>
-            <p className="text-lg text-slate-600">Three simple steps to evaluate proposal impact</p>
+            <h2 className="text-4xl font-bold text-slate-50 mb-4 tracking-tight">How It Works</h2>
+            <p className="text-lg text-slate-300">Three simple steps to evaluate proposal impact</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {[
@@ -171,10 +171,10 @@ export default function Home() {
                 <div className="absolute -top-3 -left-3 w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-lg flex items-center justify-center font-bold text-sm shadow-lg">
                   {item.step}
                 </div>
-                <div className="bg-white border-2 border-slate-200 rounded-xl p-8 hover:border-blue-300 transition-colors">
+                <div className="bg-slate-800/50 border-2 border-slate-700/50 rounded-xl p-8 hover:border-blue-500/50 hover:bg-slate-800/80 transition-all backdrop-blur">
                   <div className="text-4xl mb-4">{item.icon}</div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
-                  <p className="text-slate-600">{item.desc}</p>
+                  <h3 className="text-xl font-bold text-slate-50 mb-3">{item.title}</h3>
+                  <p className="text-slate-300">{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -183,11 +183,11 @@ export default function Home() {
       </section>
 
       {/* Dimensions Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white/50 backdrop-blur">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-800/30 backdrop-blur border-y border-slate-700/50">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-slate-900 mb-4">5 Evaluation Dimensions</h2>
-            <p className="text-lg text-slate-600">Based on Matt LeMay's Impact-First framework</p>
+            <h2 className="text-4xl font-bold text-slate-50 mb-4 tracking-tight">5 Evaluation Dimensions</h2>
+            <p className="text-lg text-slate-300">Based on Matt LeMay's Impact-First framework</p>
           </div>
           <div className="space-y-4">
             {[
@@ -197,10 +197,10 @@ export default function Home() {
               { name: 'Death Spiral Avoidance', weight: 15, color: 'from-amber-500 to-amber-600' },
               { name: 'Commercial Mindedness', weight: 5, color: 'from-green-500 to-green-600' },
             ].map((dim, i) => (
-              <div key={i} className="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-lg hover:shadow-md transition-shadow">
-                <span className="font-semibold text-slate-900">{dim.name}</span>
+              <div key={i} className="flex items-center justify-between p-4 bg-slate-800/50 border border-slate-700/50 rounded-lg hover:shadow-lg hover:shadow-slate-900/50 transition-all backdrop-blur">
+                <span className="font-semibold text-slate-100">{dim.name}</span>
                 <div className="flex items-center gap-4">
-                  <div className="w-40 bg-slate-100 rounded-full h-2">
+                  <div className="w-40 bg-slate-700/50 rounded-full h-2">
                     <div className={`h-full rounded-full bg-gradient-to-r ${dim.color}`} style={{ width: `${dim.weight * 2}%` }}></div>
                   </div>
                   <span className={`px-3 py-1 bg-gradient-to-r ${dim.color} text-white text-sm font-bold rounded-full w-14 text-center`}>{dim.weight}%</span>
@@ -212,13 +212,13 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-600 to-blue-700">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-600/10 to-purple-600/10 border-y border-blue-500/30">
         <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-4xl font-bold text-white mb-4">Ready to Evaluate?</h2>
-          <p className="text-xl text-blue-100 mb-8">Stop guessing. Start delivering impact with data-driven decisions.</p>
+          <h2 className="text-4xl font-bold text-slate-50 mb-4 tracking-tight">Ready to Evaluate?</h2>
+          <p className="text-xl text-slate-300 mb-8">Stop guessing. Start delivering impact with data-driven decisions.</p>
           <button
             onClick={handleStartEvaluation}
-            className="px-8 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:shadow-xl hover:scale-105 transition-all"
+            className="px-8 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:shadow-xl hover:shadow-blue-500/20 hover:scale-105 transition-all"
           >
             Start Your First Evaluation
           </button>
@@ -226,7 +226,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-4 sm:px-6 lg:px-8 bg-slate-900 text-slate-400 border-t border-slate-800">
+      <footer className="py-8 px-4 sm:px-6 lg:px-8 bg-slate-950/50 text-slate-400 border-t border-slate-800">
         <div className="max-w-5xl mx-auto text-center text-sm">
           <p>Impact Calculator • Powered by AI • Built for Product Managers</p>
           <p className="mt-2">Based on Matt LeMay's Impact-First Product Teams framework</p>
